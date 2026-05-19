@@ -1122,9 +1122,14 @@
     ::-webkit-scrollbar-thumb:hover { background: #2A2A2A; }
 
     /* ── Responsive ───────────────────────────────────────────── */
+    .nav-btn-short { display: none; }
     @media (max-width: 980px) {
-      .nav-links, .nav-phone, .nav-cta { display: none; }
+      .nav-links, .nav-phone { display: none; }
       .nav-hamburger { display: flex; }
+      .nav-btn-full { display: none; }
+      .nav-btn-short { display: inline; }
+      .nav-cta { gap: 0; }
+      .nav-inner { gap: 12px; }
       .why-grid { grid-template-columns: 1fr; gap: 60px; }
       .contact-grid { grid-template-columns: 1fr; gap: 48px; }
       .test-grid { grid-template-columns: 1fr; }
@@ -1698,7 +1703,9 @@
         <span class="dim">CALL</span><span class="dot">·</span>(778)&nbsp;697&#8209;0887
       </div>
       <a href="#contact" class="btn btn-silver" style="padding:14px 22px;font-size:11px">
-        Connect with Trade Select<span class="arrow"></span>
+        <span class="nav-btn-full">Connect with Trade Select</span>
+        <span class="nav-btn-short">Connect</span>
+        <span class="arrow"></span>
       </a>
     </div>
     <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
