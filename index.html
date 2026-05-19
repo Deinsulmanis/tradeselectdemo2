@@ -1123,7 +1123,7 @@
 
     /* ── Responsive ───────────────────────────────────────────── */
     @media (max-width: 980px) {
-      .nav-links, .nav-phone { display: none; }
+      .nav-links, .nav-phone, .nav-cta { display: none; }
       .nav-hamburger { display: flex; }
       .why-grid { grid-template-columns: 1fr; gap: 60px; }
       .contact-grid { grid-template-columns: 1fr; gap: 48px; }
@@ -1549,11 +1549,11 @@
       height: 96px;
       width: auto;
       display: block;
-      filter: drop-shadow(0 0 12px rgba(216, 214, 207, 0.25));
+      filter: drop-shadow(0 0 16px rgba(216, 214, 207, 0.45)) drop-shadow(0 0 4px rgba(255,255,255,0.2));
       transition: filter 250ms ease;
     }
     .nav-logo:hover .nav-logo-img {
-      filter: drop-shadow(0 0 20px rgba(216, 214, 207, 0.45));
+      filter: drop-shadow(0 0 24px rgba(216, 214, 207, 0.65)) drop-shadow(0 0 6px rgba(255,255,255,0.3));
     }
     .footer-logo-img { height: 58px; width: auto; display: block; }
     .hero-logo-img {
@@ -1562,10 +1562,10 @@
       filter: drop-shadow(0 0 48px rgba(200,195,180,0.18));
     }
     @media (max-width: 980px) {
-      .nav-logo-img { height: 80px; }
+      .nav-logo-img { height: 88px; }
     }
     @media (max-width: 600px) {
-      .nav-logo-img { height: 72px; }
+      .nav-logo-img { height: 80px; }
       .hero-logo-img { max-width: 220px; }
       .footer-logo-img { height: 44px; }
     }
