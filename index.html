@@ -1166,7 +1166,13 @@
     @media (max-width: 600px) {
       :root { --gutter: 18px; --section-y: 72px; }
       .hero-left .eyebrow::before { display: none; }
-      .hero-left .eyebrow { gap: 0; }
+      .hero-left .eyebrow {
+        display: block;
+        letter-spacing: 0.18em;
+        font-size: 10px;
+        line-height: 1.9;
+        margin-bottom: 20px;
+      }
       .hero { padding: 106px 0 52px; min-height: auto; }
       .hero-right { height: 260px; }
       .hero-headline { font-size: clamp(30px, 8.5vw, 48px); line-height: 1.0; }
@@ -1762,6 +1768,7 @@
         Roofing installs, exterior cleaning, decking, painting, and property restoration. Serving Surrey, White Rock, Richmond, Langley, Abbotsford, Chilliwack, Hope, and the entire Fraser Valley.
         One crew. Every service. Done right.
       </p>
+      <p style="font-family:var(--font-serif);font-style:italic;font-size:15px;color:var(--fg-3);margin:-4px 0 36px;letter-spacing:0.02em">One call gets it all — one click gets it quick.</p>
       <div class="hero-ctas">
         <a href="#contact" class="btn btn-silver">Connect with TradeSelect<span class="arrow"></span></a>
         <a href="#work" class="btn btn-ghost">View Our Work<span class="arrow"></span></a>
@@ -2436,7 +2443,7 @@
     </div>
     <div class="footer-base">
       <div>© 2026 Trade Select Contracting Ltd. · BC Lic. #41027 · WCB #889102</div>
-      <div>Build · Restore · Maintain</div>
+      <div style="font-family:var(--font-serif);font-style:italic;letter-spacing:0.02em;text-transform:none">One call gets it all — one click gets it quick.</div>
     </div>
   </div>
 </footer>
