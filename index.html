@@ -1127,6 +1127,116 @@
     }
     .section-bottom-rule .line { flex: 1; height: 1px; background: var(--hair); }
 
+    /* ── Service Area Section ─────────────────────────────────── */
+    .service-area-section { padding: var(--section-y) 0; border-top: 1px solid var(--hair); }
+    .sa-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      margin-top: 48px;
+    }
+    .sa-heading {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0 0 24px;
+    }
+    .sa-sub {
+      font-size: 16px;
+      color: var(--fg-1);
+      line-height: 1.7;
+      max-width: 44ch;
+      margin: 0 0 36px;
+    }
+    .sa-areas-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 32px;
+    }
+    .sa-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sa-list li {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg-1);
+      padding: 10px 0;
+      border-bottom: 1px solid var(--hair);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: color 0.2s ease;
+    }
+    .sa-list li::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--silver-2);
+      flex-shrink: 0;
+    }
+    .sa-list li:first-child { border-top: 1px solid var(--hair); }
+    .sa-map-wrap {
+      position: relative;
+      height: 480px;
+      border: 1px solid var(--hair);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .sa-map-label {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 2;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--fg-0);
+      background: rgba(10,10,10,0.85);
+      padding: 6px 12px;
+      border: 1px solid var(--hair);
+      backdrop-filter: blur(8px);
+    }
+    .sa-map {
+      width: 100%;
+      height: 100%;
+      display: block;
+      filter: grayscale(100%) invert(92%) contrast(85%);
+    }
+    .sa-map-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 40px rgba(10,10,10,0.5);
+    }
+    @media (max-width: 980px) {
+      .sa-layout { grid-template-columns: 1fr; gap: 48px; }
+      .sa-map-wrap { height: 380px; }
+    }
+    @media (max-width: 600px) {
+      .sa-areas-grid { grid-template-columns: 1fr 1fr; gap: 0 16px; }
+      .sa-map-wrap { height: 280px; }
+      .sa-heading { font-size: clamp(26px, 8vw, 40px); }
+      .sa-sub { font-size: 15px; }
+      .sa-list li { font-size: 11px; letter-spacing: 0.08em; padding: 9px 0; }
+      .sa-content .btn { width: 100%; justify-content: center; text-align: center; }
+    }
+    @media (max-width: 420px) {
+      .sa-areas-grid { grid-template-columns: 1fr; }
+      .sa-list li { font-size: 12px; letter-spacing: 0.1em; }
+    }
+
     /* ── Global ───────────────────────────────────────────────── */
     ::selection { background: var(--silver-2); color: #000; }
     ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -1159,9 +1269,11 @@
       .hero-trust { margin-top: 36px; gap: 20px; }
       .why-stat-box { padding: 36px 28px; }
       .process-rail { grid-template-columns: 1fr 1fr; }
+      .process-step { padding: 40px 28px; }
       .gal-tall, .gal-wide, .gal-med, .gal-square, .gal-wide2 { grid-column: span 12; grid-row: auto; }
       .gal .img { min-height: 260px; }
       .form { padding: 28px 20px; }
+      .test-card { padding: 36px 28px; }
     }
     @media (max-width: 600px) {
       :root { --gutter: 18px; --section-y: 72px; }
@@ -1184,13 +1296,21 @@
       .services-grid { grid-template-columns: 1fr; }
       .service-card { padding: 36px 28px; min-height: auto; }
       .process-rail { grid-template-columns: 1fr; }
-      .process-step { border-right: 0; border-bottom: 1px solid var(--hair); }
+      .process-step { border-right: 0; border-bottom: 1px solid var(--hair); padding: 36px 24px; }
       .process-step:last-child { border-bottom: 0; }
       .form-row { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; }
       .cta-strip { padding: 72px 0; }
+      .cta-strip h2 { font-size: clamp(28px, 8vw, 48px); }
+      .cta-strip .ctas { flex-direction: column; align-items: center; width: 100%; }
+      .cta-strip .ctas .btn { width: 100%; justify-content: center; text-align: center; }
       .quote-layout { gap: 40px; }
       .section-eyebrow-row { flex-wrap: wrap; gap: 8px; }
+      .why-pillar { grid-template-columns: 48px 1fr; gap: 16px; }
+      .why-pillar .idx { display: none; }
+      .why-pillar .ic { width: 48px; height: 48px; }
+      .test-card { padding: 32px 24px; }
+      .footer-base { flex-direction: column; gap: 8px; text-align: center; }
     }
     @media (max-width: 420px) {
       .hero { padding: 100px 0 48px; }
@@ -1199,6 +1319,10 @@
       .hero-trust { gap: 14px; }
       .hero-trust .num { font-size: 20px; }
       .hero-trust .lbl { font-size: 9px; }
+      .why-stat-box { padding: 28px 20px; }
+      .why-stat-box .big { font-size: 56px; }
+      .btn { padding: 16px 22px; font-size: 12px; }
+      .section-eyebrow-row span { font-size: 10px; }
     }
     /* ── All-services grid ─────────────────────────────────────── */
     #all-services { padding: 80px 0 var(--section-y); }
@@ -1756,15 +1880,14 @@
   <div class="hero-grid"></div>
   <div class="container hero-inner">
     <div class="hero-left reveal">
-      <div class="eyebrow">Roofing · Build · Restore · Surrey to Fraser Valley</div>
+      <div class="eyebrow">Build · Restore · Maintain</div>
       <h1 class="hero-headline">
         <span class="line">Your #1 Choice for</span>
         <span class="line silver-text">Building, Restoring</span>
         <span class="line it serif-it">&amp; Property Cleaning.</span>
       </h1>
       <p class="hero-sub">
-        Roofing installs, exterior cleaning, decking, painting, and property restoration. Serving Surrey, White Rock, Richmond, Langley, Abbotsford, Chilliwack, Hope, and the entire Fraser Valley.
-        One crew. Every service. Done right.
+        Roofing installs, exterior cleaning, decking, painting, and property restoration. Serving Surrey, White Rock, Richmond, North Vancouver, the North Shore, Langley, Abbotsford, Chilliwack, Hope, and the entire Fraser Valley.
       </p>
       <p style="font-family:var(--font-serif);font-style:italic;font-size:15px;color:var(--fg-3);margin:-4px 0 36px;letter-spacing:0.02em">One call gets it all — one click gets it quick.</p>
       <div class="hero-ctas">
@@ -1948,10 +2071,20 @@
         </div>
       </a>
 
+      <a class="svc-card reveal" href="#contact" data-service="Eco Gutter Guards">
+        <div class="svc-card-img"><img src="gutterphoto1.jpeg" alt="Eco Gutter Guard micro-mesh protection installed on a Surrey home" class="svc-img" loading="lazy" /></div>
+        <div class="svc-card-body">
+          <div class="svc-card-num">04</div>
+          <div class="svc-card-name">Eco Gutter Guards</div>
+          <div class="svc-card-desc">Ultra-fine stainless micro-mesh guards that block all debris and handle BC's heaviest rainfall — professionally installed, 25-year warranty.</div>
+          <div class="svc-card-cta">Get a Quote</div>
+        </div>
+      </a>
+
       <a class="svc-card reveal" href="#contact" data-service="Window Soft Wash">
         <div class="svc-card-img"><img src="WindowSoftWash.jpeg" alt="Window soft wash exterior cleaning service on a residential property" class="svc-img" loading="lazy" /></div>
         <div class="svc-card-body">
-          <div class="svc-card-num">04</div>
+          <div class="svc-card-num">05</div>
           <div class="svc-card-name">Window Soft Wash</div>
           <div class="svc-card-desc">Streak-free exterior glass cleaning using low-pressure methods safe for all frame types.</div>
           <div class="svc-card-cta">Get a Quote</div>
@@ -1961,7 +2094,7 @@
       <a class="svc-card reveal" href="#contact" data-service="Pressure Washing">
         <div class="svc-card-img"><img src="PressureWashing.jpg" alt="High-pressure washing of a driveway and exterior surface in Surrey BC" class="svc-img" loading="lazy" /></div>
         <div class="svc-card-body">
-          <div class="svc-card-num">05</div>
+          <div class="svc-card-num">06</div>
           <div class="svc-card-name">Pressure Washing</div>
           <div class="svc-card-desc">High-pressure surface restoration for driveways, walkways, decks, and exterior siding.</div>
           <div class="svc-card-cta">Get a Quote</div>
@@ -1971,7 +2104,7 @@
       <a class="svc-card reveal" href="#contact" data-service="Roofing">
         <div class="svc-card-img"><img src="Roofing.jpg" alt="New roofing installation on a residential home in the Lower Mainland" class="svc-img" loading="lazy" /></div>
         <div class="svc-card-body">
-          <div class="svc-card-num">06</div>
+          <div class="svc-card-num">07</div>
           <div class="svc-card-name">Roofing</div>
           <div class="svc-card-desc">Full installations and replacements in asphalt shingle, cedar shake, or flat membrane.</div>
           <div class="svc-card-cta">Get a Quote</div>
@@ -1981,7 +2114,7 @@
       <a class="svc-card reveal" href="#contact" data-service="Cedar Roof Conditioning">
         <div class="svc-card-img"><img src="CedarRoofConditioning.png" alt="Cedar shake roof conditioning and oil treatment on a home in the Lower Mainland" class="svc-img" loading="lazy" /></div>
         <div class="svc-card-body">
-          <div class="svc-card-num">07</div>
+          <div class="svc-card-num">08</div>
           <div class="svc-card-name">Cedar Roof Conditioning</div>
           <div class="svc-card-desc">Oil treatment and restoration to preserve cedar shake roofs and prevent drying or splitting.</div>
           <div class="svc-card-cta">Get a Quote</div>
@@ -1991,7 +2124,7 @@
       <a class="svc-card reveal" href="#contact" data-service="Decking &amp; Fencing">
         <div class="svc-card-img"><img src="Decking&Fencing.webp" alt="New deck and fence construction for a residential property in Surrey BC" class="svc-img" loading="lazy" /></div>
         <div class="svc-card-body">
-          <div class="svc-card-num">08</div>
+          <div class="svc-card-num">09</div>
           <div class="svc-card-name">Decking &amp; Fencing</div>
           <div class="svc-card-desc">New builds, repairs, and staining for decks, fences, and outdoor structures.</div>
           <div class="svc-card-cta">Get a Quote</div>
@@ -2001,7 +2134,7 @@
       <a class="svc-card reveal" href="#contact" data-service="Painting">
         <div class="svc-card-img"><img src="Painting.jpg" alt="Exterior painting service on a residential home in the Lower Mainland" class="svc-img" loading="lazy" /></div>
         <div class="svc-card-body">
-          <div class="svc-card-num">09</div>
+          <div class="svc-card-num">10</div>
           <div class="svc-card-name">Painting</div>
           <div class="svc-card-desc">Interior and exterior finishes with premium, weather-resistant materials and clean edges.</div>
           <div class="svc-card-cta">Get a Quote</div>
@@ -2011,7 +2144,7 @@
       <a class="svc-card reveal" href="#contact" data-service="Concrete &amp; Hardscape">
         <div class="svc-card-img"><img src="Concrete&Hardscape.jpg" alt="Concrete driveway and hardscape installation in Surrey BC" class="svc-img" loading="lazy" /></div>
         <div class="svc-card-body">
-          <div class="svc-card-num">10</div>
+          <div class="svc-card-num">11</div>
           <div class="svc-card-name">Concrete &amp; Hardscape</div>
           <div class="svc-card-desc">Driveways, walkways, patios, and retaining walls built to outlast Lower Mainland winters.</div>
           <div class="svc-card-cta">Get a Quote</div>
@@ -2021,7 +2154,7 @@
       <a class="svc-card reveal" href="#contact" data-service="Snow Clearing">
         <div class="svc-card-img"><img src="SnowClearing.webp" alt="Snow clearing and roof snow removal service in Surrey BC" class="svc-img" loading="lazy" /></div>
         <div class="svc-card-body">
-          <div class="svc-card-num">11</div>
+          <div class="svc-card-num">12</div>
           <div class="svc-card-name">Snow Clearing</div>
           <div class="svc-card-desc">Roof and property snow removal to prevent ice dams, structural stress, and slip hazards.</div>
           <div class="svc-card-cta">Get a Quote</div>
@@ -2031,7 +2164,7 @@
       <a class="svc-card reveal" href="#contact" data-service="Seasonal Lighting">
         <div class="svc-card-img"><img src="Seasonal Lighting.jpg" alt="Professional seasonal and holiday lighting installation on a home in Surrey BC" class="svc-img" loading="lazy" /></div>
         <div class="svc-card-body">
-          <div class="svc-card-num">12</div>
+          <div class="svc-card-num">13</div>
           <div class="svc-card-name">Seasonal Lighting</div>
           <div class="svc-card-desc">Professional installation and takedown of exterior holiday and seasonal lighting displays.</div>
           <div class="svc-card-cta">Get a Quote</div>
@@ -2041,19 +2174,9 @@
       <a class="svc-card reveal" href="#contact" data-service="Heating &amp; Ventilation">
         <div class="svc-card-img"><img src="Heating&Ventilation.webp" alt="Heating and ventilation system installation and service in Surrey BC" class="svc-img" loading="lazy" /></div>
         <div class="svc-card-body">
-          <div class="svc-card-num">13</div>
+          <div class="svc-card-num">14</div>
           <div class="svc-card-name">Heating &amp; Ventilation</div>
           <div class="svc-card-desc">Supply, install, and service heating systems and ventilation to keep your home comfortable year-round.</div>
-          <div class="svc-card-cta">Get a Quote</div>
-        </div>
-      </a>
-
-      <a class="svc-card reveal" href="#contact" data-service="Eco Gutter Guards">
-        <div class="svc-card-img"><img src="gutterphoto1.jpeg" alt="Eco Gutter Guard micro-mesh protection installed on a Surrey home" class="svc-img" loading="lazy" /></div>
-        <div class="svc-card-body">
-          <div class="svc-card-num">14</div>
-          <div class="svc-card-name">Eco Gutter Guards</div>
-          <div class="svc-card-desc">Ultra-fine stainless micro-mesh guards that block all debris and handle BC's heaviest rainfall — professionally installed, 25-year warranty.</div>
           <div class="svc-card-cta">Get a Quote</div>
         </div>
       </a>
@@ -2078,29 +2201,11 @@
           <div class="why-pillar">
             <div class="ic silver-text">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="9" r="6"/><path d="M9 13l-2 8 5-3 5 3-2-8"/><path d="M10 9l1.5 1.5L14 8"/>
-              </svg>
-            </div>
-            <div><h4>Licensed &amp; Bonded</h4><p>Red-seal journeymen, BC Lic. #41027, fully bonded. The paperwork your insurer will ask for, ready before they ask.</p></div>
-            <div class="idx">/ 01</div>
-          </div>
-          <div class="why-pillar">
-            <div class="ic silver-text">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3l8 3v6c0 4.5-3.5 8-8 9-4.5-1-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/>
-              </svg>
-            </div>
-            <div><h4>$5M Liability Insured</h4><p>Comprehensive site coverage, WCB clearance issued before any crew sets foot on your property.</p></div>
-            <div class="idx">/ 02</div>
-          </div>
-          <div class="why-pillar">
-            <div class="ic silver-text">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
               </svg>
             </div>
             <div><h4>Five-Day Turnaround</h4><p>Tear-off Monday, hand-off Friday on most single-family homes. We don't leave a job site open. Ever.</p></div>
-            <div class="idx">/ 03</div>
+            <div class="idx">/ 01</div>
           </div>
           <div class="why-pillar">
             <div class="ic silver-text">
@@ -2109,7 +2214,7 @@
               </svg>
             </div>
             <div><h4>Surrey Owned &amp; Operated</h4><p>Proudly local. Independently owned and operated right here in Surrey — not a franchise, not a call centre. Your warranty call goes to the same people who did the work.</p></div>
-            <div class="idx">/ 04</div>
+            <div class="idx">/ 02</div>
           </div>
         </div>
       </div>
@@ -2226,11 +2331,70 @@
   </div>
 </section>
 
+<!-- ── Service Areas ─────────────────────────────────────────── -->
+<section class="service-area-section" id="service-areas">
+  <div class="container">
+    <div class="section-eyebrow-row reveal">
+      <span class="idx">06 ·</span><span>Where We Work</span>
+      <span class="line"></span>
+      <span>Surrey · Fraser Valley · Lower Mainland</span>
+    </div>
+    <div class="sa-layout reveal">
+      <div class="sa-content">
+        <h2 class="sa-heading">Proudly Serving<br><span class="silver-text">BC's Lower Mainland</span><br><span class="serif-it it">& Fraser Valley.</span></h2>
+        <p class="sa-sub">From Surrey to Hope — our crew shows up on time, scoped right, and priced fairly. No call centres, no middlemen. One team handles everything.</p>
+        <div class="sa-areas-grid">
+          <div class="sa-area-col">
+            <ul class="sa-list">
+              <li>Surrey</li>
+              <li>White Rock</li>
+              <li>Langley City</li>
+              <li>Langley Township</li>
+              <li>Delta</li>
+              <li>Richmond</li>
+              <li>Burnaby</li>
+              <li>North Vancouver</li>
+              <li>North Shore</li>
+            </ul>
+          </div>
+          <div class="sa-area-col">
+            <ul class="sa-list">
+              <li>Abbotsford</li>
+              <li>Chilliwack</li>
+              <li>Hope</li>
+              <li>Mission</li>
+              <li>Maple Ridge</li>
+              <li>Pitt Meadows</li>
+              <li>Coquitlam</li>
+            </ul>
+          </div>
+        </div>
+        <a href="#contact" class="btn btn-silver" style="margin-top:36px;display:inline-flex">Connect to Trade Select<span class="arrow"></span></a>
+      </div>
+      <div class="sa-map-wrap">
+        <div class="sa-map-label">Service Territory</div>
+        <iframe
+          class="sa-map"
+          title="Trade Select Service Area — Surrey to Fraser Valley BC"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d322488.9163467!2d-122.3356!3d49.1913!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5485d9b8cd890ccd%3A0xf7ebca5fe6f54b0!2sSurrey%2C%20BC!5e0!3m2!1sen!2sca!4v1716000000000!5m2!1sen!2sca"
+          width="100%"
+          height="100%"
+          style="border:0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <div class="sa-map-overlay"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── Testimonials ───────────────────────────────────────────── -->
 <section class="testimonials" id="testimonials">
   <div class="container">
     <div class="section-eyebrow-row reveal">
-      <span class="idx">06 ·</span><span>What Owners Say</span>
+      <span class="idx">07 ·</span><span>What Owners Say</span>
       <span class="line"></span>
       <span>★ 4.9 · 187 Google Reviews</span>
     </div>
@@ -2295,7 +2459,7 @@
 <section class="contact" id="contact">
   <div class="container">
     <div class="section-eyebrow-row reveal">
-      <span class="idx">07 ·</span><span>Contact</span>
+      <span class="idx">08 ·</span><span>Contact</span>
       <span class="line"></span>
       <span>24-Hour Response · Mon–Sat</span>
     </div>
@@ -2450,7 +2614,7 @@
       </div>
     </div>
     <div class="footer-base">
-      <div>© 2026 Trade Select Contracting Ltd. · BC Lic. #41027 · WCB #889102</div>
+      <div>© 2026 Trade Select Contracting Ltd. · Licensed &amp; Insured · WCB Covered</div>
       <div style="font-family:var(--font-serif);font-style:italic;letter-spacing:0.02em;text-transform:none">One call gets it all — one click gets it quick.</div>
     </div>
   </div>
@@ -2902,7 +3066,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { keys: ['emergency','urgent','leak','damage','flood','storm'],
       reply: "For emergencies, call us directly at (778) 697-0887 — we run a 24-hour emergency line for active leaks and storm damage." },
     { keys: ['insured','license','certified','warranty','bonded','wcb'],
-      reply: "We're fully licensed (BC Lic. #41027), bonded, and carry $5M liability insurance with WCB clearance on every job. All work comes with a 20-year workmanship warranty." },
+      reply: "We're fully licensed, bonded, and carry $5M liability insurance with WCB clearance on every job. All work comes with a 20-year workmanship warranty." },
     { keys: ['hours','open','available','when','schedule','book'],
       reply: "We're available Monday to Saturday, 7:00 AM – 6:00 PM. Emergency services run 24/7. You can request a site visit using the quote form anytime." },
     { keys: ['moss','demoss','algae','lichen'],
