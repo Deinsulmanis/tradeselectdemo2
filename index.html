@@ -3005,12 +3005,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // New quote form submit with validation
+  // ── Formspree endpoint (Twilio credentials live in Netlify env vars) ──
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mjgzpwpv';
+
+  // ── New quote form submit with validation ─────────────────────
   const quoteForm = document.getElementById('quote-form-new');
   const quoteSuccess = document.getElementById('quote-success');
   if (quoteForm && quoteSuccess) {
-    quoteForm.addEventListener('submit', e => {
+    quoteForm.addEventListener('submit', async e => {
       e.preventDefault();
+
+      // -- Validation (unchanged) --
       let valid = true;
       const required = quoteForm.querySelectorAll('[required]');
       required.forEach(field => {
@@ -3019,10 +3024,52 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isEmpty) valid = false;
         field.addEventListener('input', () => { field.style.borderBottomColor = ''; }, { once: true });
       });
-      if (valid) {
-        quoteSuccess.classList.add('visible');
-        quoteForm.style.visibility = 'hidden';
+      if (!valid) return;
+
+      // -- Gather field values --
+      const data = {
+        name:           quoteForm.querySelector('[name="name"]').value.trim(),
+        phone:          quoteForm.querySelector('[name="phone"]').value.trim(),
+        email:          quoteForm.querySelector('[name="email"]').value.trim(),
+        address:        quoteForm.querySelector('[name="address"]').value.trim(),
+        service:        quoteForm.querySelector('[name="service"]').value.trim(),
+        contact_method: quoteForm.querySelector('[name="contact_method"]:checked')?.value || '',
+        message:        quoteForm.querySelector('[name="message"]').value.trim(),
+      };
+
+      // -- Formspree submission --
+      let formspreeOk = false;
+      try {
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body:    JSON.stringify(data),
+        });
+        formspreeOk = res.ok;
+      } catch (_) {
+        formspreeOk = false;
       }
+
+      if (!formspreeOk) {
+        alert('Something went wrong. Please call us at (778) 697-0887');
+        return;
+      }
+
+      // -- Twilio SMS (via Netlify Function — credentials stored server-side) --
+      const smsBody = `New lead from TradeSelect.ca! Name: ${data.name} Phone: ${data.phone} Service: ${data.service} Message: ${data.message}`;
+      try {
+        await fetch('/.netlify/functions/send-sms', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ message: smsBody }),
+        });
+      } catch (_) {
+        // SMS failure is silent — Formspree already captured the lead
+      }
+
+      // -- Show success (unchanged) --
+      quoteSuccess.classList.add('visible');
+      quoteForm.style.visibility = 'hidden';
     });
   }
 
