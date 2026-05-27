@@ -3055,21 +3055,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // -- Twilio SMS (via Netlify Function — credentials stored server-side) --
+      // -- Show success immediately after Formspree OK --
+      quoteSuccess.classList.add('visible');
+      quoteForm.style.visibility = 'hidden';
+
+      // -- Twilio SMS — completely silent fire-and-forget, no await --
       const smsBody = `New lead from TradeSelect.ca! Name: ${data.name} Phone: ${data.phone} Service: ${data.service} Message: ${data.message}`;
       try {
-        await fetch('/.netlify/functions/send-sms', {
+        fetch('/.netlify/functions/send-sms', {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify({ message: smsBody }),
-        });
-      } catch (_) {
-        // SMS failure is silent — Formspree already captured the lead
-      }
-
-      // -- Show success (unchanged) --
-      quoteSuccess.classList.add('visible');
-      quoteForm.style.visibility = 'hidden';
+        }).catch(() => {});
+      } catch (_) {}
     });
   }
 
