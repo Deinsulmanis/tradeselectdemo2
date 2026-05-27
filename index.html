@@ -3038,6 +3038,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       // -- Formspree submission --
+      console.log(data);
       let formspreeOk = false;
       try {
         const res = await fetch(FORMSPREE_ENDPOINT, {
