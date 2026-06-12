@@ -779,6 +779,148 @@
     .gal-square { grid-column: span 4; }
     .gal-wide2  { grid-column: span 8; }
 
+    /* ── Portfolio Masonry ────────────────────────────────────── */
+    .portfolio-masonry {
+      columns: 3;
+      column-gap: 12px;
+    }
+    .pm-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: zoom-in;
+      border: 1px solid var(--hair);
+    }
+    .pm-item img {
+      width: 100%;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), filter 0.5s ease;
+      filter: brightness(0.9);
+    }
+    .pm-item:hover img {
+      transform: scale(1.04);
+      filter: brightness(1);
+    }
+    /* Lightbox */
+    .lb {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(4,4,4,0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      align-items: center;
+      justify-content: center;
+    }
+    .lb.open { display: flex; }
+    .lb-img {
+      max-width: 88vw;
+      max-height: 86vh;
+      object-fit: contain;
+      display: block;
+      border: 1px solid var(--hair-2);
+    }
+    .lb-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--fg-2);
+      cursor: pointer;
+      border: 1px solid var(--hair-2);
+      padding: 8px 16px;
+      background: none;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .lb-close:hover { color: var(--fg-0); border-color: var(--silver-2); }
+    .lb-nav {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--fg-2);
+      cursor: pointer;
+      border: 1px solid var(--hair-2);
+      padding: 14px 18px;
+      background: rgba(4,4,4,0.7);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
+    .lb-nav:hover { color: var(--fg-0); border-color: var(--silver-2); }
+    .lb-counter {
+      position: absolute;
+      bottom: 20px; left: 50%; transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+      white-space: nowrap;
+    }
+    /* Gallery expand/collapse */
+    .gallery-extra-wrap {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.85s cubic-bezier(0.4,0,0.2,1);
+    }
+    .gallery-extra-wrap .portfolio-masonry {
+      margin-top: 12px;
+    }
+    .gallery-toggle-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 36px;
+    }
+    .gallery-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--fg-1);
+      background: none;
+      border: 1px solid var(--hair-2);
+      padding: 16px 36px;
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+    .gallery-toggle-btn:hover {
+      color: var(--fg-0);
+      border-color: var(--silver-2);
+      background: rgba(255,255,255,0.03);
+    }
+    .gallery-toggle-arrow {
+      display: inline-block;
+      font-style: normal;
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+      line-height: 1;
+    }
+    .gallery-toggle-btn.open .gallery-toggle-arrow {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 900px) {
+      .portfolio-masonry { columns: 2; column-gap: 8px; }
+      .pm-item { margin-bottom: 8px; }
+      .lb-nav { padding: 10px 14px; }
+    }
+    @media (max-width: 480px) {
+      .portfolio-masonry { columns: 2; column-gap: 6px; }
+      .pm-item { margin-bottom: 6px; }
+      .lb-prev { left: 8px; }
+      .lb-next { right: 8px; }
+    }
+
     /* ── Testimonials ─────────────────────────────────────────── */
     .test-grid {
       display: grid;
@@ -2303,51 +2445,59 @@
       <span>2023 – 2026</span>
     </div>
     <div class="section-head reveal">
-      <h2 class="h-section">Recent projects,<br><span class="serif-it" style="text-transform:none;font-weight:400;font-size:0.9em">standing under our city.</span></h2>
-      <p class="lead">A small selection of projects completed across Surrey, White Rock, Langley City, Abbotsford, and the Fraser Valley. Photography by the foreman, not a marketing team.</p>
+      <h2 class="h-section">Our work,<br><span class="serif-it" style="text-transform:none;font-weight:400;font-size:0.9em">done right.</span></h2>
+      <p class="lead">Real projects completed across Surrey, White Rock, Langley, Abbotsford, and the Fraser Valley. Every photo taken on-site by our team.</p>
     </div>
-    <div class="gallery-grid reveal">
-      <div class="gal gal-tall">
-        <div class="img gal-coming-soon"><span>Photos<br>Coming<br>Soon</span></div>
-        <div class="meta">
-          <div><div class="title">Shaughnessy Heritage</div><div class="sub">Roofing &amp; Exterior · Full Renovation</div></div>
-          <div class="badge">Featured</div>
-        </div>
-      </div>
-      <div class="gal gal-wide">
-        <div class="img gal-coming-soon"><span>Photos Coming Soon</span></div>
-        <div class="meta">
-          <div><div class="title">Granville Commercial</div><div class="sub">Exterior Works · 4,200 sq ft</div></div>
-          <div class="badge">Commercial</div>
-        </div>
-      </div>
-      <div class="gal gal-med">
-        <div class="img gal-coming-soon"><span>Photos<br>Coming Soon</span></div>
-        <div class="meta">
-          <div><div class="title">Kitsilano Craftsman</div><div class="sub">Roofing &amp; Painting · 2024</div></div>
-        </div>
-      </div>
-      <div class="gal gal-square">
-        <div class="img gal-coming-soon"><span>Photos<br>Coming Soon</span></div>
-        <div class="meta">
-          <div><div class="title">Exterior Detail</div><div class="sub">Precision Finishing · Surrey</div></div>
-        </div>
-      </div>
-      <div class="gal gal-square">
-        <div class="img gal-coming-soon"><span>Photos<br>Coming Soon</span></div>
-        <div class="meta">
-          <div><div class="title">After-Hours Repair</div><div class="sub">11:42 PM · Storm Call-Out</div></div>
-          <div class="badge">Emergency</div>
-        </div>
-      </div>
-      <div class="gal gal-wide2">
-        <div class="img gal-coming-soon"><span>Photos Coming Soon</span></div>
-        <div class="meta">
-          <div><div class="title">Surrey Multi-Unit</div><div class="sub">Full Exterior · 28-Unit Strata</div></div>
-          <div class="badge">Strata</div>
-        </div>
+    <div class="portfolio-masonry reveal">
+      <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3704.jpeg" alt="Trade Select project" loading="lazy"></div>
+      <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3706.jpeg" alt="Trade Select project" loading="lazy"></div>
+      <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/416.jpeg" alt="Trade Select project" loading="lazy"></div>
+      <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/1016.jpeg" alt="Trade Select project" loading="lazy"></div>
+      <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/635.jpeg" alt="Trade Select project" loading="lazy"></div>
+      <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/649.jpeg" alt="Trade Select project" loading="lazy"></div>
+      <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/2087.jpeg" alt="Trade Select project" loading="lazy"></div>
+      <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3593.jpeg" alt="Trade Select project" loading="lazy"></div>
+    </div>
+
+    <div class="gallery-extra-wrap" id="gallery-extra-wrap">
+      <div class="portfolio-masonry">
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3709.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3588.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/621.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3590.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/647.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3586.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/622.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3705.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/629.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3591.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/646.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3592.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/623.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3708.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/636.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3594.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/637.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3589.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/2092.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3707.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/627.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3710.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/628.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3711.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/2093.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3714.jpeg" alt="Trade Select project" loading="lazy"></div>
+        <div class="pm-item"><img src="TradeSelectWebsiteProjectPhotos/3715.jpeg" alt="Trade Select project" loading="lazy"></div>
       </div>
     </div>
+
+    <div class="gallery-toggle-row">
+      <button class="gallery-toggle-btn" id="gallery-toggle-btn" aria-expanded="false" aria-controls="gallery-extra-wrap">
+        <span id="gallery-toggle-label">View All 35 Photos</span>
+        <span class="gallery-toggle-arrow">↓</span>
+      </button>
+    </div>
+
     <div class="section-bottom-rule">
       <span>archive of 500+ completed projects available on request</span>
       <span class="line"></span>
@@ -3005,6 +3155,67 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ── Gallery expand/collapse ───────────────────────────────────
+  const galleryToggleBtn = document.getElementById('gallery-toggle-btn');
+  const galleryExtraWrap = document.getElementById('gallery-extra-wrap');
+  const galleryToggleLbl = document.getElementById('gallery-toggle-label');
+  if (galleryToggleBtn && galleryExtraWrap) {
+    galleryToggleBtn.addEventListener('click', () => {
+      const isOpen = galleryToggleBtn.classList.toggle('open');
+      galleryToggleBtn.setAttribute('aria-expanded', isOpen);
+      if (isOpen) {
+        galleryExtraWrap.style.maxHeight = galleryExtraWrap.scrollHeight + 'px';
+        galleryToggleLbl.textContent = 'Show Less';
+      } else {
+        galleryExtraWrap.style.maxHeight = '0';
+        galleryToggleLbl.textContent = 'View All 35 Photos';
+        setTimeout(() => {
+          document.getElementById('work').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    });
+  }
+
+  // ── Lightbox ──────────────────────────────────────────────────
+  const lb       = document.getElementById('lb');
+  const lbImg    = document.getElementById('lb-img');
+  const lbCtr    = document.getElementById('lb-counter');
+  const lbClose  = document.getElementById('lb-close');
+  const lbPrev   = document.getElementById('lb-prev');
+  const lbNext   = document.getElementById('lb-next');
+  const pmItems  = Array.from(document.querySelectorAll('.pm-item img'));
+  let lbIndex    = 0;
+
+  function lbOpen(i) {
+    lbIndex = i;
+    lbImg.src = pmItems[i].src;
+    lbImg.alt = pmItems[i].alt;
+    lbCtr.textContent = `${i + 1} / ${pmItems.length}`;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function lbClose_() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function lbStep(dir) {
+    lbIndex = (lbIndex + dir + pmItems.length) % pmItems.length;
+    lbImg.src = pmItems[lbIndex].src;
+    lbCtr.textContent = `${lbIndex + 1} / ${pmItems.length}`;
+  }
+
+  pmItems.forEach((img, i) => img.parentElement.addEventListener('click', () => lbOpen(i)));
+  lbClose.addEventListener('click', lbClose_);
+  lbPrev.addEventListener('click', () => lbStep(-1));
+  lbNext.addEventListener('click', () => lbStep(1));
+  lb.addEventListener('click', e => { if (e.target === lb) lbClose_(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') lbClose_();
+    if (e.key === 'ArrowLeft') lbStep(-1);
+    if (e.key === 'ArrowRight') lbStep(1);
+  });
+
   // ── Formspree endpoint (Twilio credentials live in Netlify env vars) ──
   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mjgzpwpv';
 
@@ -3074,6 +3285,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+
+<!-- ── Lightbox ────────────────────────────────────────────────── -->
+<div class="lb" id="lb" role="dialog" aria-label="Photo viewer" aria-modal="true">
+  <button class="lb-close" id="lb-close">Close ✕</button>
+  <button class="lb-nav lb-prev" id="lb-prev">← Prev</button>
+  <img class="lb-img" id="lb-img" src="" alt="Project photo">
+  <button class="lb-nav lb-next" id="lb-next">Next →</button>
+  <div class="lb-counter" id="lb-counter"></div>
+</div>
 
 <!-- ── Chat widget ─────────────────────────────────────────────── -->
 <div class="chat-tooltip" id="chat-tooltip">Questions? Chat with us</div>
