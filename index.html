@@ -47,9 +47,9 @@
     "openingHoursSpecification": [
       {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-        "opens": "07:00",
-        "closes": "18:00"
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "08:00",
+        "closes": "20:00"
       }
     ],
     "priceRange": "$$",
@@ -95,7 +95,7 @@
     }
     html { scroll-behavior: smooth; }
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
+    html, body { margin: 0; padding: 0; overflow-x: hidden; }
     body {
       background: var(--bg-0);
       color: var(--fg-0);
@@ -798,9 +798,11 @@
       transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), filter 0.5s ease;
       filter: brightness(0.9);
     }
-    .pm-item:hover img {
-      transform: scale(1.04);
-      filter: brightness(1);
+    @media (hover: hover) {
+      .pm-item:hover img {
+        transform: scale(1.04);
+        filter: brightness(1);
+      }
     }
     /* Lightbox */
     .lb {
@@ -912,13 +914,24 @@
     @media (max-width: 900px) {
       .portfolio-masonry { columns: 2; column-gap: 8px; }
       .pm-item { margin-bottom: 8px; }
-      .lb-nav { padding: 10px 14px; }
+      .lb-img { max-width: 94vw; max-height: 78vh; }
+      .lb-nav { padding: 10px 14px; min-height: 44px; min-width: 44px; }
     }
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       .portfolio-masonry { columns: 2; column-gap: 6px; }
       .pm-item { margin-bottom: 6px; }
+      .gallery-toggle-btn { width: 100%; justify-content: center; padding: 16px 20px; }
+      /* Lightbox: stack controls above/below image */
+      .lb-img { max-width: 96vw; max-height: 72vh; }
       .lb-prev { left: 8px; }
       .lb-next { right: 8px; }
+      .lb-nav { padding: 10px 12px; min-height: 44px; min-width: 44px; font-size: 9px; }
+      .lb-close { top: 12px; right: 12px; padding: 10px 14px; min-height: 44px; }
+      .lb-counter { bottom: 12px; font-size: 9px; }
+    }
+    @media (max-width: 420px) {
+      .portfolio-masonry { columns: 1; column-gap: 0; }
+      .pm-item { margin-bottom: 6px; }
     }
 
     /* ── Testimonials ─────────────────────────────────────────── */
@@ -2779,7 +2792,7 @@
           <li><a href="tel:7786970887">(778) 697-0887</a></li>
           <li><a href="mailto:christopher@tradeselect.ca">christopher@tradeselect.ca</a></li>
 
-          <li><a href="#contact">Mon–Sat · 7:00–18:00</a></li>
+          <li><a href="#contact">Mon–Sun · 8:00–20:00</a></li>
         </ul>
       </div>
     </div>
@@ -3159,10 +3172,25 @@ document.addEventListener('DOMContentLoaded', () => {
       const isOpen = galleryToggleBtn.classList.toggle('open');
       galleryToggleBtn.setAttribute('aria-expanded', isOpen);
       if (isOpen) {
-        galleryExtraWrap.style.maxHeight = galleryExtraWrap.scrollHeight + 'px';
+        // Use scrollHeight but fall back to a large value for lazy images;
+        // after transition ends, release max-height so images can load in freely.
+        const h = Math.max(galleryExtraWrap.scrollHeight, 2000);
+        galleryExtraWrap.style.maxHeight = h + 'px';
+        galleryExtraWrap.addEventListener('transitionend', function release() {
+          if (galleryToggleBtn.classList.contains('open')) {
+            galleryExtraWrap.style.maxHeight = 'none';
+          }
+          galleryExtraWrap.removeEventListener('transitionend', release);
+        });
         galleryToggleLbl.textContent = 'Show Less';
       } else {
-        galleryExtraWrap.style.maxHeight = '0';
+        // Must set an explicit px value before animating back to 0
+        galleryExtraWrap.style.maxHeight = galleryExtraWrap.scrollHeight + 'px';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            galleryExtraWrap.style.maxHeight = '0';
+          });
+        });
         galleryToggleLbl.textContent = 'View All 35 Photos';
         setTimeout(() => {
           document.getElementById('work').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -3354,7 +3382,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { keys: ['insured','license','certified','warranty','bonded','wcb'],
       reply: "We're fully licensed, bonded, and carry $5M liability insurance with WCB clearance on every job. All work comes with a 20-year workmanship warranty." },
     { keys: ['hours','open','available','when','schedule','book'],
-      reply: "We're available Monday to Saturday, 7:00 AM – 6:00 PM. Emergency services run 24/7. You can request a site visit using the quote form anytime." },
+      reply: "We're available Monday to Sunday, 8:00 AM – 8:00 PM. Emergency services run 24/7. You can request a site visit using the quote form anytime." },
     { keys: ['moss','demoss','algae','lichen'],
       reply: "Roof demossing is one of our most popular services. We do manual removal plus zinc/copper treatment to stop regrowth for years. Request a quote to get pricing for your property." },
     { keys: ['gutter','downspout','drain'],
