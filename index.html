@@ -3344,6 +3344,11 @@ document.addEventListener('DOMContentLoaded', () => {
       quoteSuccess.classList.add('visible');
       quoteForm.style.visibility = 'hidden';
 
+      // -- GA4: fire only on a genuine successful submission --
+      if (typeof gtag === 'function') {
+        gtag('event', 'contact_form_submit', { service: data.service || 'unspecified' });
+      }
+
       // -- Twilio SMS — completely silent fire-and-forget, no await --
       const smsBody = `New lead from TradeSelect.ca! Name: ${data.name} Phone: ${data.phone} Service: ${data.service} Message: ${data.message}`;
       try {
@@ -3355,6 +3360,27 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (_) {}
     });
   }
+
+  // ── GA4: phone-tap tracking ───────────────────────────────────
+  // Single delegated listener. Never calls preventDefault and never delays
+  // navigation — gtag sends via sendBeacon, which survives the page unload
+  // that the tel: dial triggers, so the call fires instantly on mobile.
+  document.addEventListener('click', function (e) {
+    const tel = e.target.closest('a[href^="tel:"]');
+    if (!tel) return;
+    let loc = 'other';
+    if      (tel.closest('.mobile-menu')) loc = 'mobile_menu';
+    else if (tel.closest('header'))       loc = 'header';
+    else if (tel.closest('.cta-strip'))   loc = 'cta_strip';
+    else if (tel.closest('.footer'))      loc = 'footer';
+    else if (tel.closest('#contact')) {
+      const k = tel.querySelector('.k');
+      loc = (k && /emergency/i.test(k.textContent)) ? 'contact_emergency' : 'contact';
+    }
+    if (typeof gtag === 'function') {
+      gtag('event', 'phone_click', { link_location: loc });
+    }
+  }, { passive: true });
 
 });
 </script>
