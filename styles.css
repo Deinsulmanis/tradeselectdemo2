@@ -1923,4 +1923,8 @@
       background: linear-gradient(90deg, var(--silver-3), var(--silver-1), var(--silver-3));
       transition: width 1400ms cubic-bezier(0.4,0,0.2,1);
     }
+
+    /* Anchor landing offset so the fixed nav doesn't cover the contact form */
+    #quote-form-new { scroll-margin-top: 130px; }
+    @media (max-width: 600px) { #quote-form-new { scroll-margin-top: 108px; } }
   
