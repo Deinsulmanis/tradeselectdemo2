@@ -88,6 +88,40 @@
 </head>
 <body data-accent="silver">
 
+<!-- ── Lead source attribution (hidden — captures traffic source for lead tracking; not user-visible) ── -->
+<script>
+(function () {
+  var K = { s: 'ts_lead_source', m: 'ts_lead_medium', c: 'ts_lead_campaign' };
+  var ss = null;
+  try { ss = window.sessionStorage; ss.setItem('__ts', '1'); ss.removeItem('__ts'); } catch (e) { ss = null; }
+  function get(k) { try { return ss ? ss.getItem(k) : null; } catch (e) { return null; } }
+  function set(k, v) { try { if (ss) ss.setItem(k, v); } catch (e) {} }
+
+  var p = new URLSearchParams(window.location.search);
+  var utmS = (p.get('utm_source') || '').trim();
+  var utmM = (p.get('utm_medium') || '').trim();
+  var utmC = (p.get('utm_campaign') || '').trim();
+
+  if (utmS) {
+    // Campaign visit — last-touch: a fresh UTM click updates the stored source.
+    set(K.s, utmS); set(K.m, utmM); set(K.c, utmC);
+  } else if (!get(K.s)) {
+    // No UTM and nothing stored yet → external referrer host, else "organic-direct".
+    var src = 'organic-direct', ref = document.referrer || '';
+    if (ref) { try { var h = new URL(ref).hostname; if (h && h !== window.location.hostname) src = h; } catch (e) {} }
+    set(K.s, src); set(K.m, ''); set(K.c, '');
+  }
+
+  // Mirror stored values into hidden form inputs, if a form is present on this page.
+  document.addEventListener('DOMContentLoaded', function () {
+    [['lead_source', K.s], ['lead_medium', K.m], ['lead_campaign', K.c]].forEach(function (pair) {
+      var el = document.querySelector('input[name="' + pair[0] + '"]');
+      if (el) el.value = get(pair[1]) || '';
+    });
+  });
+})();
+</script>
+
 <!-- ── Page Loader ───────────────────────────────────────────── -->
 <div id="page-loader" aria-hidden="true">
   <div class="loader-logo-wrap">
@@ -754,6 +788,10 @@
       </div>
       <div class="quote-form-wrap reveal">
         <form class="quote-form" id="quote-form-new" novalidate>
+          <!-- Lead source attribution — hidden, populated on load from sessionStorage. Not user-visible. -->
+          <input type="hidden" name="lead_source" value="" />
+          <input type="hidden" name="lead_medium" value="" />
+          <input type="hidden" name="lead_campaign" value="" />
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Full Name *</label>
@@ -1356,6 +1394,27 @@ document.addEventListener('DOMContentLoaded', () => {
         message:        quoteForm.querySelector('[name="message"]').value.trim(),
       };
 
+      // -- Lead source attribution (set by the per-page capture script in sessionStorage) --
+      const ssGet = k => { try { return sessionStorage.getItem(k) || ''; } catch (e) { return ''; } };
+      let leadSource = ssGet('ts_lead_source');
+      let leadMedium = ssGet('ts_lead_medium');
+      let leadCampaign = ssGet('ts_lead_campaign');
+      if (!leadSource) {
+        // sessionStorage blocked/empty — derive at submit time as a last resort.
+        const q = new URLSearchParams(window.location.search);
+        leadSource = (q.get('utm_source') || '').trim();
+        leadMedium = (q.get('utm_medium') || '').trim();
+        leadCampaign = (q.get('utm_campaign') || '').trim();
+        if (!leadSource) {
+          leadSource = 'organic-direct';
+          const ref = document.referrer || '';
+          if (ref) { try { const h = new URL(ref).hostname; if (h && h !== location.hostname) leadSource = h; } catch (e) {} }
+        }
+      }
+      data.lead_source = leadSource;
+      data.lead_medium = leadMedium;
+      data.lead_campaign = leadCampaign;
+
       // -- Formspree submission --
       console.log(data);
       let formspreeOk = false;
@@ -1385,7 +1444,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // -- Twilio SMS — completely silent fire-and-forget, no await --
-      const smsBody = `New lead from TradeSelect.ca! Name: ${data.name} Phone: ${data.phone} Service: ${data.service} Message: ${data.message}`;
+      const smsBody = `New lead from TradeSelect.ca! Name: ${data.name} Phone: ${data.phone} Service: ${data.service} Source: ${data.lead_source} Message: ${data.message}`;
       try {
         fetch('/.netlify/functions/send-sms', {
           method:  'POST',
